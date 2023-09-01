@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wallet_app_workshop/core/data.dart';
+import 'package:wallet_app_workshop/payment/payment_button.dart';
 
 class PaymentBottomSheet extends StatefulWidget {
   const PaymentBottomSheet({super.key});
@@ -18,6 +19,7 @@ class _PaymentBottomSheetState extends State<PaymentBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
     final List<DropdownMenuEntry<int>> cardsEntries =
     <DropdownMenuEntry<int>>[];
     for (final card in cards) {
@@ -74,10 +76,10 @@ class _PaymentBottomSheetState extends State<PaymentBottomSheet> {
             ),
           ),
           const SizedBox(height: 20),
-          // PaymentButton(
-          //   enabled: true,
-          //   width: screenSize.width - 20 * 2,
-          // ),
+          PaymentButton(
+            enabled: true,
+            width: screenSize.width - 20 * 2,
+          ),
         ],
       ),
     );
