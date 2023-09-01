@@ -54,16 +54,18 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                     child: PageView.builder(
                       controller: pageController,
                       itemCount: onBoardingItems.length,
-                      itemBuilder: (context, index) => Container(
-                        decoration: BoxDecoration(
-                          color: AppColors.onBlack,
-                          borderRadius: BorderRadius.circular(25),
-                          image: DecorationImage(
-                            image: AssetImage(onBoardingItems[index].image),
-                            fit: BoxFit.fitWidth,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          decoration: BoxDecoration(
+                            color: AppColors.onBlack,
+                            borderRadius: BorderRadius.circular(25),
+                            image: DecorationImage(
+                              image: AssetImage(onBoardingItems[index].image),
+                              fit: BoxFit.fitWidth,
+                            ),
                           ),
-                        ),
-                      ),
+                        );
+                      },
                     ),
                   ),
                   const Positioned(
@@ -86,27 +88,10 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Center(
-                    child: Text(
-                      onBoardingItems[0].title,
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Center(
-                    child: Text(
-                      onBoardingItems[0].subtitle,
-                      style: const TextStyle(fontSize: 16),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
+                  ..._buildItemInfo(),
                   PageIndicator(
                     length: onBoardingItems.length,
                   ),
-                  const SizedBox(height: 20),
                   FilledButton(
                     onPressed: () {
                       Navigator.of(context).push(
@@ -128,6 +113,27 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
       ),
     );
   }
+
+  List<Widget> _buildItemInfo() {
+    return [
+      Center(
+        child: Text(
+          onBoardingItems[0].title,
+          style: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ),
+      const SizedBox(height: 10),
+      Center(
+        child: Text(
+          onBoardingItems[0].subtitle,
+          style: const TextStyle(fontSize: 16),
+        ),
+      ),
+    ];
+  }
 }
 
 class PageIndicator extends StatelessWidget {
@@ -144,35 +150,38 @@ class PageIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox.fromSize(
-      size: const Size.fromHeight(8),
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          final size = constraints.smallest;
-          final activeWidth = size.width * 0.5;
-          final inActiveWidth =
-              (size.width - activeWidth - (2 * length * 2)) / (length - 1);
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 20),
+      child: SizedBox.fromSize(
+        size: const Size.fromHeight(8),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final size = constraints.smallest;
+            final activeWidth = size.width * 0.5;
+            final inActiveWidth =
+                (size.width - activeWidth - (2 * length * 2)) / (length - 1);
 
-          return Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: List.generate(
-              length,
-              (index) => Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 2),
-                child: Container(
-                  height: index == activeIndex ? 8 : 5,
-                  width: index == activeIndex ? activeWidth : inActiveWidth,
-                  decoration: BoxDecoration(
-                    color:
-                        index == activeIndex ? activeColor : AppColors.onBlack,
-                    borderRadius: BorderRadius.circular(10),
+            return Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(
+                length,
+                (index) => Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 2),
+                  child: Container(
+                    height: index == activeIndex ? 8 : 5,
+                    width: index == activeIndex ? activeWidth : inActiveWidth,
+                    decoration: BoxDecoration(
+                      color:
+                          index == activeIndex ? activeColor : AppColors.onBlack,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                   ),
                 ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }

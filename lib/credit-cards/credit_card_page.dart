@@ -33,9 +33,6 @@ class _CreditCardPageState extends State<CreditCardPage> {
 
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
-    final cardWidth = screenSize.width - Constants.appHPadding * 2;
-
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: AppBar(
@@ -61,29 +58,7 @@ class _CreditCardPageState extends State<CreditCardPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(
-                  height: cardWidth / creditCardAspectRatio,
-                  child: PageView.builder(
-                    controller: pageController,
-                    itemCount: cards.length,
-                    scrollDirection: Axis.horizontal,
-                    onPageChanged: (index) =>
-                        setState(() => activeIndex = index),
-                    itemBuilder: (context, index) {
-                      return AnimatedScale(
-                        scale: index == activeIndex ? 1 : 0.85,
-                        duration: const Duration(milliseconds: 300),
-                        curve: Curves.easeInOut,
-                        child: CreditCard(
-                          width: cardWidth,
-                          data: cards[index],
-                          isFront: true,
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                const SizedBox(height: 20),
+                _buildCardsPageView(context),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 30),
                   child: Column(
@@ -93,26 +68,7 @@ class _CreditCardPageState extends State<CreditCardPage> {
                         activeIndex: activeIndex,
                         activeColor: cards[activeIndex].style.color,
                       ),
-                      const SizedBox(height: 20),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: _Button(
-                              label: 'Edit',
-                              icon: Icons.edit,
-                              onTap: () {},
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: _Button(
-                              label: 'Delete',
-                              icon: Icons.delete,
-                              onTap: () {},
-                            ),
-                          ),
-                        ],
-                      ),
+                      _buildButtons(),
                     ],
                   ),
                 ),
@@ -122,32 +78,84 @@ class _CreditCardPageState extends State<CreditCardPage> {
           Expanded(
             child: SingleChildScrollView(
               padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 15),
-                  const Text(
-                    'Latest Transactions',
-                    style: TextStyle(
-                      color: AppColors.black,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16,
-                    ),
-                  ),
-                  const SizedBox(height: 15),
-                  ...List.generate(
-                    transactions.length,
-                    (index) => _TransactionItem(
-                      transactions[index],
-                    ),
-                  ),
-                  SizedBox(height: MediaQuery.of(context).padding.bottom),
-                ],
-              ),
+              child: _buildLatestTransactionsSection(),
             ),
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildCardsPageView(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+    final cardWidth = screenSize.width - Constants.appHPadding * 2;
+    return SizedBox(
+      height: cardWidth / creditCardAspectRatio,
+      child: PageView.builder(
+        controller: pageController,
+        itemCount: cards.length,
+        scrollDirection: Axis.horizontal,
+        onPageChanged: (index) => setState(() => activeIndex = index),
+        itemBuilder: (context, index) {
+          return AnimatedScale(
+            scale: index == activeIndex ? 1 : 0.85,
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeInOut,
+            child: CreditCard(
+              width: cardWidth,
+              data: cards[index],
+              isFront: true,
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildButtons() {
+    return Row(
+      children: [
+        Expanded(
+          child: _Button(
+            label: 'Edit',
+            icon: Icons.edit,
+            onTap: () {},
+          ),
+        ),
+        const SizedBox(width: 10),
+        Expanded(
+          child: _Button(
+            label: 'Delete',
+            icon: Icons.delete,
+            onTap: () {},
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildLatestTransactionsSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: 15),
+        const Text(
+          'Latest Transactions',
+          style: TextStyle(
+            color: AppColors.black,
+            fontWeight: FontWeight.w600,
+            fontSize: 16,
+          ),
+        ),
+        const SizedBox(height: 15),
+        ...List.generate(
+          transactions.length,
+          (index) => _TransactionItem(
+            transactions[index],
+          ),
+        ),
+        SizedBox(height: MediaQuery.of(context).padding.bottom),
+      ],
     );
   }
 }
