@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:wallet_app_workshop/core/constants.dart';
 import 'package:wallet_app_workshop/core/styles.dart';
