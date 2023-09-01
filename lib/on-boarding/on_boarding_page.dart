@@ -116,12 +116,6 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                         ),
                       );
                     },
-                    style: FilledButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      fixedSize: const Size.fromHeight(50),
-                    ),
                     child: const Text(
                       'Get Started!',
                       style: TextStyle(color: AppColors.white),

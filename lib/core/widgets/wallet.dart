@@ -108,11 +108,8 @@ class WalletSide extends StatelessWidget {
         ],
       ),
       padding: const EdgeInsets.all(4),
-      child: const DashedBorderContainer(
-        borderRadius: BorderRadius.only(
-          topRight: Radius.circular(AppBorderRadius.xl),
-          bottomRight: Radius.circular(AppBorderRadius.xl),
-        ),
+      child: DashedBorderContainer(
+        borderRadius: BorderRadius.circular(AppBorderRadius.xl),
         dash: 3,
         gap: 3,
         borderWidth: 0.5,
