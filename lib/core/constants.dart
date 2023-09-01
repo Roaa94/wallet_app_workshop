@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class Constants {
-  static const double creditCardAspectRatio = 1.56;
   static const double appHPadding = 16;
   static const double walletStrapWidth = 85;
   static const double walletStrapHeight = 100;

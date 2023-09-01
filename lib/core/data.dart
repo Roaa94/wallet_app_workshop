@@ -53,6 +53,10 @@ enum CreditCardStyle {
     }
   }
 
+  Color get textColor {
+    return color.computeLuminance() > 0.3 ? AppColors.black : AppColors.white;
+  }
+
   String get frontBg => '$name-pattern-front.png';
 
   String get backBg => '$name-pattern-back.png';

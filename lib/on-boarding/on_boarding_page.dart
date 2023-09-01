@@ -105,7 +105,6 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                   const SizedBox(height: 20),
                   PageIndicator(
                     length: onBoardingItems.length,
-                    width: itemWidth,
                   ),
                   const SizedBox(height: 20),
                   FilledButton(
@@ -136,36 +135,44 @@ class PageIndicator extends StatelessWidget {
     super.key,
     this.length = 1,
     this.activeIndex = 0,
-    this.width = 50,
+    this.activeColor = AppColors.primary,
   });
 
   final int length;
   final int activeIndex;
-  final double width;
+  final Color activeColor;
 
   @override
   Widget build(BuildContext context) {
-    final activeWidth = width * 0.5;
-    final inActiveWidth =
-        (width - activeWidth - (2 * length * 2)) / (length - 1);
+    return SizedBox.fromSize(
+      size: const Size.fromHeight(8),
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final size = constraints.smallest;
+          final activeWidth = size.width * 0.5;
+          final inActiveWidth =
+              (size.width - activeWidth - (2 * length * 2)) / (length - 1);
 
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: List.generate(
-        length,
-        (index) => Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 2),
-          child: Container(
-            height: index == activeIndex ? 8 : 5,
-            width: index == activeIndex ? activeWidth : inActiveWidth,
-            decoration: BoxDecoration(
-              color:
-                  index == activeIndex ? AppColors.primary : AppColors.onBlack,
-              borderRadius: BorderRadius.circular(10),
+          return Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: List.generate(
+              length,
+              (index) => Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 2),
+                child: Container(
+                  height: index == activeIndex ? 8 : 5,
+                  width: index == activeIndex ? activeWidth : inActiveWidth,
+                  decoration: BoxDecoration(
+                    color:
+                        index == activeIndex ? activeColor : AppColors.onBlack,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              ),
             ),
-          ),
-        ),
+          );
+        },
       ),
     );
   }

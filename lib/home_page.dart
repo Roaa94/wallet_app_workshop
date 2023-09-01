@@ -3,6 +3,7 @@ import 'package:wallet_app_workshop/core/constants.dart';
 import 'package:wallet_app_workshop/core/data.dart';
 import 'package:wallet_app_workshop/core/styles.dart';
 import 'package:wallet_app_workshop/core/widgets/wallet.dart';
+import 'package:wallet_app_workshop/credit-cards/credit_cards_page.dart';
 import 'package:wallet_app_workshop/payment/payment_bottom_sheet.dart';
 
 class HomePage extends StatefulWidget {
@@ -16,9 +17,9 @@ class _HomePageState extends State<HomePage> {
   int currentPageIndex = 0;
 
   final List<TabItem> tabItems = [
-    TabItem(
+    const TabItem(
       title: 'Cards',
-      view: Container(),
+      view: CreditCardsPage(),
     ),
     TabItem(view: Container()),
     const TabItem(
@@ -34,8 +35,6 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text(tabItems[currentPageIndex].title),
       ),
-      extendBody: true,
-      extendBodyBehindAppBar: true,
       resizeToAvoidBottomInset: false,
       bottomNavigationBar: Stack(
         clipBehavior: Clip.none,
