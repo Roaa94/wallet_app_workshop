@@ -39,7 +39,7 @@ class _CreditCardPageState extends State<CreditCardPage> {
         backgroundColor: AppColors.black,
         title: Text(cards[activeIndex].name),
         leading: IconButton(
-          onPressed: () => Navigator.of(context).pop(activeIndex),
+          onPressed: () => Navigator.of(context).pop(),
           icon: const Icon(Icons.arrow_back_ios),
         ),
       ),

@@ -43,21 +43,11 @@ class _CreditCardsPageState extends State<CreditCardsPage> {
           itemCount: cards.length,
           initialActiveCard: activeCard,
           onCardTap: (index) {
-            widget.onCardPagePush?.call();
-            Navigator.of(context)
-                .push(
+            Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) => CreditCardPage(initialIndex: index),
               ),
-            )
-                .then((value) {
-              widget.onCardPagePop?.call();
-              if (value != null && value is int) {
-                setState(() {
-                  activeCard = value;
-                });
-              }
-            });
+            );
           },
           itemBuilder: (context, index) {
             return Align(
@@ -96,16 +86,15 @@ class CreditCardsStack extends StatefulWidget {
   State<CreditCardsStack> createState() => _CreditCardsStackState();
 }
 
-class _CreditCardsStackState extends State<CreditCardsStack> {
-  late int activeIndex;
+class _CreditCardsStackState extends State<CreditCardsStack>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController animationController;
 
   double get scaleDifference =>
       (maxCardScale - minCardScale) / widget.itemCount;
 
   Future<void> _handleDismiss() async {
-    setState(() {
-      activeIndex++;
-    });
+    //...
   }
 
   void _onPanStart(DragStartDetails details) {
@@ -123,17 +112,16 @@ class _CreditCardsStackState extends State<CreditCardsStack> {
   @override
   void initState() {
     super.initState();
-    activeIndex = widget.initialActiveCard;
+    animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+    );
   }
 
   @override
-  void didUpdateWidget(covariant CreditCardsStack oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.initialActiveCard != widget.initialActiveCard) {
-      setState(() {
-        activeIndex = widget.initialActiveCard;
-      });
-    }
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
   }
 
   @override
@@ -141,34 +129,9 @@ class _CreditCardsStackState extends State<CreditCardsStack> {
     return Stack(
       clipBehavior: Clip.none,
       children: List.generate(
-        widget.itemCount + 1,
-        (stackIndexWithPlaceholder) {
-          final index = stackIndexWithPlaceholder - 1;
-          final modIndex = getModIndexFromActiveIndex(
-            index,
-            activeIndex,
-            widget.itemCount,
-          );
-
-          Widget child = widget.itemBuilder(context, modIndex);
-
-          // Build placeholder widget
-          if (stackIndexWithPlaceholder == 0) {
-            return Positioned(
-              top: 0,
-              left: 0,
-              child: Transform.scale(
-                scale: minCardScale,
-                alignment: Alignment.topCenter,
-                // Disable any hero that might exist, as it will cause
-                // a duplicate hero tag in the same widget tree
-                child: HeroMode(
-                  enabled: false,
-                  child: child,
-                ),
-              ),
-            );
-          }
+        widget.itemCount,
+        (index) {
+          Widget child = widget.itemBuilder(context, index);
 
           // Build the last, draggable card
           if (index == widget.itemCount - 1) {
@@ -179,7 +142,7 @@ class _CreditCardsStackState extends State<CreditCardsStack> {
                 onPanStart: _onPanStart,
                 onPanUpdate: _onPanUpdate,
                 onPanEnd: _onPanEnd,
-                onTap: () => widget.onCardTap?.call(modIndex),
+                onTap: () => widget.onCardTap?.call(index),
                 behavior: HitTestBehavior.opaque,
                 child: child,
               ),
