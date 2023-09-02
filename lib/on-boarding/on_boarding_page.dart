@@ -169,11 +169,10 @@ class PageIndicator extends StatelessWidget {
                 (index) => Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 2),
                   child: Container(
-                    height: index == activeIndex ? 8 : 5,
-                    width: index == activeIndex ? activeWidth : inActiveWidth,
+                    height: 5,
+                    width: inActiveWidth,
                     decoration: BoxDecoration(
-                      color:
-                          index == activeIndex ? activeColor : AppColors.onBlack,
+                      color: AppColors.onBlack,
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
