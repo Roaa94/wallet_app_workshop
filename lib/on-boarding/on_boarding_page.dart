@@ -114,11 +114,11 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
     );
   }
 
-  List<Widget> _buildItemInfo() {
+  List<Widget> _buildItemInfo({int activeIndex = 0}) {
     return [
       Center(
         child: Text(
-          onBoardingItems[0].title,
+          onBoardingItems[activeIndex].title,
           style: const TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.w500,
@@ -128,7 +128,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
       const SizedBox(height: 10),
       Center(
         child: Text(
-          onBoardingItems[0].subtitle,
+          onBoardingItems[activeIndex].subtitle,
           style: const TextStyle(fontSize: 16),
         ),
       ),
