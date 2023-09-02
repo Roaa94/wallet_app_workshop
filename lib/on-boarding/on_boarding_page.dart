@@ -44,10 +44,10 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                 clipBehavior: Clip.none,
                 children: [
                   const Positioned(
-                    left: -16,
-                    top: -33,
-                    bottom: -33,
-                    width: 55,
+                    left: -250 + 40,
+                    width: 250,
+                    top: -32,
+                    bottom: -32,
                     child: WalletSide(),
                   ),
                   Positioned.fill(
@@ -69,10 +69,10 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                     ),
                   ),
                   const Positioned(
-                    left: -20,
+                    left: -250 + 35,
+                    width: 250,
                     top: -30,
                     bottom: -30,
-                    width: 55,
                     child: WalletSide(),
                   ),
                 ],
