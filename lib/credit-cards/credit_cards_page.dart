@@ -91,7 +91,7 @@ class _CreditCardsStackState extends State<CreditCardsStack>
   late final AnimationController animationController;
 
   double get scaleDifference =>
-      (maxCardScale - minCardScale) / widget.itemCount;
+      (maxCardScale - minCardScale) / (widget.itemCount - 1);
 
   Future<void> _handleDismiss() async {
     //...
