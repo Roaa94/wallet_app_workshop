@@ -208,7 +208,7 @@ class _CreditCardsStackState extends State<CreditCardsStack>
                       onPanUpdate: _onPanUpdate,
                       onPanEnd: _onPanEnd,
                       onTap: dragOffset == Offset.zero
-                          ? () => widget.onCardTap?.call(index)
+                          ? () => widget.onCardTap?.call(modIndex)
                           : null,
                       behavior: HitTestBehavior.opaque,
                       child: Opacity(
