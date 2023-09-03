@@ -38,6 +38,12 @@ class _OnBoardingPageState extends State<OnBoardingPage>
   }
 
   @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     final itemWidth = screenSize.width * viewportFraction;
