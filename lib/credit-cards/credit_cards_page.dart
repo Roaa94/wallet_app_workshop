@@ -2,11 +2,11 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:wallet_app_workshop/core/data.dart';
-import 'package:wallet_app_workshop/core/utils.dart';
 import 'package:wallet_app_workshop/credit-cards/credit_card.dart';
 import 'package:wallet_app_workshop/credit-cards/credit_card_page.dart';
 
 const dragSnapDuration = Duration(milliseconds: 200);
+const dragThreshold = Offset(70, 70);
 const minCardScale = 0.6;
 const maxCardScale = 1.0;
 const cardsOffset = 12.0;

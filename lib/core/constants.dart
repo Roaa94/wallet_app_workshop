@@ -7,8 +7,4 @@ class Constants {
   static const double perspectiveSm = 0.0005;
   static const double perspective = 0.001;
   static const double perspectiveLg = 0.002;
-
-  static const Duration customPageTransitionDuration = Duration(milliseconds: 800);
-  static const dragSnapDuration = Duration(milliseconds: 200);
-  static const dragThreshold = Offset(70, 70);
 }
