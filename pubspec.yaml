@@ -19,6 +19,7 @@ dev_dependencies:
 
   flutter_lints: ^2.0.0
   very_good_analysis: ^5.0.0+1
+  flutter_launcher_icons: ^0.13.1
 
 flutter:
   uses-material-design: true
@@ -35,3 +36,21 @@ flutter:
           weight: 500
         - asset: assets/fonts/Raleway-light.ttf
           weight: 300
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/app-icon.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  web:
+    generate: true
+    image_path: "assets/images/app-icon.png"
+    background_color: "#1A1A1A"
+    theme_color: "#1A1A1A"
+  windows:
+    generate: true
+    image_path: "assets/images/app-icon.png"
+    icon_size: 256
+  macos:
+    generate: true
+    image_path: "assets/images/app-icon.png"
