@@ -1,8 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:wallet_app_workshop/core/constants.dart';
 import 'package:wallet_app_workshop/core/data.dart';
+import 'package:wallet_app_workshop/core/utils.dart';
 import 'package:wallet_app_workshop/credit-cards/credit_card.dart';
 import 'package:wallet_app_workshop/credit-cards/credit_card_page.dart';
 
@@ -125,8 +125,8 @@ class _CreditCardsStackState extends State<CreditCardsStack>
   }
 
   void _onPanEnd(DragEndDetails details) {
-    if (dragOffset.dx.abs() > Constants.dragThreshold.dx ||
-        dragOffset.dy.abs() > Constants.dragThreshold.dy) {
+    if (dragOffset.dx.abs() > dragThreshold.dx ||
+        dragOffset.dy.abs() > dragThreshold.dy) {
       _handleDismiss().then((value) {
         setState(() {
           dragOffset = Offset.zero;
