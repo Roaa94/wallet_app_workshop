@@ -7,6 +7,7 @@ import 'package:wallet_app_workshop/credit-cards/credit_card.dart';
 import 'package:wallet_app_workshop/credit-cards/credit_card_page.dart';
 
 const dragSnapDuration = Duration(milliseconds: 200);
+const pageTransitionDuration = Duration(milliseconds: 800);
 const dragThreshold = Offset(70, 70);
 const minCardScale = 0.6;
 const maxCardScale = 1.0;
@@ -44,21 +45,78 @@ class _CreditCardsPageState extends State<CreditCardsPage> {
           itemCount: cards.length,
           initialActiveCard: activeCard,
           onCardTap: (index) {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => CreditCardPage(initialIndex: index),
+            pushFadeInRoute(
+              context,
+              pageBuilder: (context, animation, __) => CreditCardPage(
+                initialIndex: index,
+                pageTransitionAnimation: animation,
               ),
-            );
+            ).then((value) {
+              if (value != null && value is int) {
+                setState(() {
+                  activeCard = value;
+                });
+              }
+            });
           },
           itemBuilder: (context, index) {
             return Align(
               widthFactor: cardHeight / cardWidth,
               heightFactor: cardWidth / cardHeight,
-              child: Transform.rotate(
-                angle: -pi / 2,
-                child: CreditCard(
-                  width: cardWidth,
-                  data: cards[index],
+              child: Hero(
+                tag: 'card_${cards[index].id}',
+                flightShuttleBuilder: (BuildContext context,
+                    Animation<double> animation, _, __, ___) {
+                  final rotationAnimation =
+                      Tween<double>(begin: -pi / 2, end: pi).animate(
+                    CurvedAnimation(
+                      parent: animation,
+                      curve: Curves.easeOut,
+                    ),
+                  );
+
+                  final flipAnimation =
+                      Tween<double>(begin: 0, end: pi).animate(
+                    CurvedAnimation(
+                      parent: animation,
+                      curve: const Interval(
+                        0.3,
+                        1.0,
+                        curve: Curves.easeOut,
+                      ),
+                    ),
+                  );
+
+                  return Material(
+                    color: Colors.transparent,
+                    child: AnimatedBuilder(
+                      animation: animation,
+                      builder: (context, child) {
+                        return Transform(
+                          transform: Matrix4.identity()
+                            ..setEntry(3, 2, 0.001)
+                            ..rotateZ(rotationAnimation.value)
+                            ..rotateX(flipAnimation.value),
+                          alignment: Alignment.center,
+                          child: Transform.flip(
+                            flipX: flipAnimation.value > 0,
+                            child: CreditCard(
+                              width: cardWidth,
+                              data: cards[index],
+                              isFront: flipAnimation.value > 0.5,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                },
+                child: Transform.rotate(
+                  angle: -pi / 2,
+                  child: CreditCard(
+                    width: cardWidth,
+                    data: cards[index],
+                  ),
                 ),
               ),
             );
@@ -93,7 +151,7 @@ class _CreditCardsStackState extends State<CreditCardsStack>
   late final Animation<double> curvedAnimation;
   late final Animation<Offset> throwAnimation;
   late final Tween<Offset> throwAnimationTween;
-  int activeIndex = 0;
+  late int activeIndex;
   Offset dragOffset = Offset.zero;
   Duration dragDuration = Duration.zero;
 
@@ -143,6 +201,7 @@ class _CreditCardsStackState extends State<CreditCardsStack>
   @override
   void initState() {
     super.initState();
+    activeIndex = widget.initialActiveCard;
     animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 200),
@@ -156,6 +215,16 @@ class _CreditCardsStackState extends State<CreditCardsStack>
       end: const Offset(minThrowDistance, minThrowDistance),
     );
     throwAnimation = throwAnimationTween.animate(curvedAnimation);
+  }
+
+  @override
+  void didUpdateWidget(covariant CreditCardsStack oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.initialActiveCard != oldWidget.initialActiveCard) {
+      setState(() {
+        activeIndex = widget.initialActiveCard;
+      });
+    }
   }
 
   @override
@@ -190,7 +259,10 @@ class _CreditCardsStackState extends State<CreditCardsStack>
                   child: Transform.scale(
                     scale: minCardScale,
                     alignment: Alignment.topCenter,
-                    child: child,
+                    child: HeroMode(
+                      enabled: false,
+                      child: child,
+                    ),
                   ),
                 );
               }
@@ -252,4 +324,31 @@ class _CreditCardsStackState extends State<CreditCardsStack>
       },
     );
   }
+}
+
+Future<dynamic> pushFadeInRoute(
+  BuildContext context, {
+  required RoutePageBuilder pageBuilder,
+}) {
+  return Navigator.of(context).push(
+    PageRouteBuilder(
+      pageBuilder: pageBuilder,
+      transitionDuration: pageTransitionDuration,
+      reverseTransitionDuration: pageTransitionDuration,
+      transitionsBuilder: (
+        BuildContext context,
+        Animation<double> animation,
+        _,
+        Widget child,
+      ) {
+        return FadeTransition(
+          opacity: CurvedAnimation(
+            parent: animation,
+            curve: Curves.easeOut,
+          ),
+          child: child,
+        );
+      },
+    ),
+  );
 }
