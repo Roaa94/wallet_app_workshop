@@ -83,7 +83,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   onPressed: () {
-                    showModalBottomSheet(
+                    showModalBottomSheet<void>(
                       context: context,
                       backgroundColor: AppColors.onBlack,
                       elevation: 0,
@@ -132,7 +132,6 @@ class _NotificationsPage extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 50),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Center(
             child: Image.asset('assets/images/empty.png'),

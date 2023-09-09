@@ -78,7 +78,6 @@ class _PaymentButtonState extends State<PaymentButton> {
                   padding: const EdgeInsets.only(left: draggableMinWidth),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       const Text(
                         'Slide to pay',

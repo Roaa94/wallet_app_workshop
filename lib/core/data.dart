@@ -5,8 +5,8 @@ class CreditCardData {
   const CreditCardData({
     required this.id,
     required this.name,
-    this.number = '1234567812345678',
     required this.type,
+    this.number = '1234567812345678',
     this.style = CreditCardStyle.primary,
   });
 
@@ -64,8 +64,8 @@ enum CreditCardStyle {
 
 class TabItem {
   const TabItem({
-    this.title = '',
     required this.view,
+    this.title = '',
   });
 
   final String title;
@@ -106,7 +106,6 @@ const cards = [
   CreditCardData(
     id: 0,
     name: 'Central Bank',
-    style: CreditCardStyle.primary,
     type: CreditCardType.visa,
   ),
   CreditCardData(

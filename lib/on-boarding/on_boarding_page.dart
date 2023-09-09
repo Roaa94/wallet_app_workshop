@@ -45,7 +45,7 @@ class _OnBoardingPageState extends State<OnBoardingPage>
 
   @override
   Widget build(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
+    final screenSize = MediaQuery.of(context).size;
     final itemWidth = screenSize.width * viewportFraction;
 
     return Scaffold(
@@ -97,7 +97,9 @@ class _OnBoardingPageState extends State<OnBoardingPage>
                                 color: AppColors.onBlack,
                                 borderRadius: BorderRadius.circular(25),
                                 image: DecorationImage(
-                                  image: AssetImage(onBoardingItems[index].image),
+                                  image: AssetImage(
+                                    onBoardingItems[index].image,
+                                  ),
                                   fit: BoxFit.fitWidth,
                                 ),
                               ),
@@ -113,16 +115,17 @@ class _OnBoardingPageState extends State<OnBoardingPage>
                     top: -30,
                     bottom: -30,
                     child: AnimatedBuilder(
-                        animation: animationController,
-                        builder: (context, child) {
-                          return Transform(
-                            transform: Matrix4.identity()
-                              ..setEntry(3, 2, 0.001)
-                              ..rotateY(rotationAnimation.value),
-                            alignment: Alignment.center,
-                            child: const WalletSide(),
-                          );
-                        }),
+                      animation: animationController,
+                      builder: (context, child) {
+                        return Transform(
+                          transform: Matrix4.identity()
+                            ..setEntry(3, 2, 0.001)
+                            ..rotateY(rotationAnimation.value),
+                          alignment: Alignment.center,
+                          child: const WalletSide(),
+                        );
+                      },
+                    ),
                   ),
                 ],
               ),
@@ -145,7 +148,7 @@ class _OnBoardingPageState extends State<OnBoardingPage>
                   FilledButton(
                     onPressed: () {
                       Navigator.of(context).push(
-                        MaterialPageRoute(
+                        MaterialPageRoute<void>(
                           builder: (context) => const HomePage(),
                         ),
                       );
@@ -212,7 +215,6 @@ class PageIndicator extends StatelessWidget {
                 (size.width - activeWidth - (2 * length * 2)) / (length - 1);
 
             return Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(
                 length,

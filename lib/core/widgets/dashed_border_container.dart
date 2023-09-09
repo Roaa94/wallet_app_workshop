@@ -1,5 +1,4 @@
 import 'dart:math';
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
@@ -43,12 +42,6 @@ class DashedBorderContainer extends StatelessWidget {
 }
 
 class DashedBorderPainter extends CustomPainter {
-  final double dash;
-  final double gap;
-  final Color dashColor;
-  final BorderRadius borderRadius;
-  final double borderWidth;
-
   DashedBorderPainter({
     this.dash = 5.0,
     this.gap = 3.0,
@@ -57,9 +50,15 @@ class DashedBorderPainter extends CustomPainter {
     this.borderWidth = 1,
   });
 
+  final double dash;
+  final double gap;
+  final Color dashColor;
+  final BorderRadius borderRadius;
+  final double borderWidth;
+
   @override
   void paint(Canvas canvas, Size size) {
-    final Paint paint = Paint()
+    final paint = Paint()
       ..color = dashColor
       ..strokeWidth = borderWidth
       ..style = PaintingStyle.stroke;
@@ -81,18 +80,16 @@ class DashedBorderPainter extends CustomPainter {
   }
 
   void _drawDashedPath(Canvas canvas, Paint paint, RRect rrect) {
-    final Path path = Path()..addRRect(rrect);
-    final double dashLength = dash + gap;
+    final path = Path()..addRRect(rrect);
+    final dashLength = dash + gap;
 
-    for (PathMetric metric in path.computeMetrics()) {
-      final double totalLength = metric.length;
+    for (final metric in path.computeMetrics()) {
+      final totalLength = metric.length;
 
-      for (double distance = 0;
-          distance < totalLength;
-          distance += dashLength) {
-        final double start = distance;
+      for (var distance = 0.0; distance < totalLength; distance += dashLength) {
+        final start = distance;
         final double end = min(distance + dash, totalLength);
-        final Path extractPath = metric.extractPath(start, end);
+        final extractPath = metric.extractPath(start, end);
         canvas.drawPath(extractPath, paint);
       }
     }

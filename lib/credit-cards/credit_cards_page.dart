@@ -65,8 +65,13 @@ class _CreditCardsPageState extends State<CreditCardsPage> {
               heightFactor: cardWidth / cardHeight,
               child: Hero(
                 tag: 'card_${cards[index].id}',
-                flightShuttleBuilder: (BuildContext context,
-                    Animation<double> animation, _, __, ___) {
+                flightShuttleBuilder: (
+                  BuildContext context,
+                  Animation<double> animation,
+                  _,
+                  __,
+                  ___,
+                ) {
                   final rotationAnimation =
                       Tween<double>(begin: -pi / 2, end: pi).animate(
                     CurvedAnimation(
@@ -81,7 +86,7 @@ class _CreditCardsPageState extends State<CreditCardsPage> {
                       parent: animation,
                       curve: const Interval(
                         0.3,
-                        1.0,
+                        1,
                         curve: Curves.easeOut,
                       ),
                     ),
@@ -129,9 +134,9 @@ class _CreditCardsPageState extends State<CreditCardsPage> {
 
 class CreditCardsStack extends StatefulWidget {
   const CreditCardsStack({
-    super.key,
     required this.itemCount,
     required this.itemBuilder,
+    super.key,
     this.onCardTap,
     this.initialActiveCard = 0,
   });
@@ -250,7 +255,7 @@ class _CreditCardsStackState extends State<CreditCardsStack>
                 widget.itemCount,
               );
 
-              Widget child = widget.itemBuilder(context, modIndex);
+              final child = widget.itemBuilder(context, modIndex);
 
               if (stackIndexWithPlaceholder == 0) {
                 return Positioned(

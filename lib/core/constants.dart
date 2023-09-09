@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class Constants {
   static const double appHPadding = 16;
   static const double walletStrapWidth = 85;

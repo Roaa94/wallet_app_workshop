@@ -7,9 +7,9 @@ import 'package:wallet_app_workshop/on-boarding/on_boarding_page.dart';
 
 class CreditCardPage extends StatefulWidget {
   const CreditCardPage({
-    super.key,
     required this.initialIndex,
     required this.pageTransitionAnimation,
+    super.key,
   });
 
   final int initialIndex;
@@ -68,7 +68,6 @@ class _CreditCardPageState extends State<CreditCardPage> {
             ),
             clipBehavior: Clip.hardEdge,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 _buildCardsPageView(context),
                 SlideTransition(
@@ -112,7 +111,6 @@ class _CreditCardPageState extends State<CreditCardPage> {
       child: PageView.builder(
         controller: pageController,
         itemCount: cards.length,
-        scrollDirection: Axis.horizontal,
         onPageChanged: (index) => setState(() => activeIndex = index),
         itemBuilder: (context, index) {
           return AnimatedScale(
@@ -208,7 +206,6 @@ class _Button extends StatelessWidget {
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
               width: 50,
@@ -279,7 +276,7 @@ class _TransactionItem extends StatelessWidget {
                 Text(
                   transaction.date,
                   style: const TextStyle(color: AppColors.onBlack),
-                )
+                ),
               ],
             ),
           ),
@@ -291,7 +288,7 @@ class _TransactionItem extends StatelessWidget {
               fontSize: 18,
               fontWeight: FontWeight.w700,
             ),
-          )
+          ),
         ],
       ),
     );

@@ -12,7 +12,7 @@ class PaymentBottomSheet extends StatefulWidget {
 class _PaymentBottomSheetState extends State<PaymentBottomSheet> {
   final TextEditingController sendingCardsController = TextEditingController();
   final TextEditingController receivingCardsController =
-  TextEditingController();
+      TextEditingController();
   final TextEditingController accountsController = TextEditingController();
   int? selectedSendingCard = 0;
   int? selectedReceivingCard = 0;
@@ -20,11 +20,14 @@ class _PaymentBottomSheetState extends State<PaymentBottomSheet> {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-    final List<DropdownMenuEntry<int>> cardsEntries =
-    <DropdownMenuEntry<int>>[];
+    final cardsEntries = <DropdownMenuEntry<int>>[];
     for (final card in cards) {
-      cardsEntries.add(DropdownMenuEntry<int>(
-          value: card.id, label: '${card.type.label} - ${card.name}'));
+      cardsEntries.add(
+        DropdownMenuEntry<int>(
+          value: card.id,
+          label: '${card.type.label} - ${card.name}',
+        ),
+      );
     }
     final bottomInset = MediaQuery.of(context).viewInsets.bottom;
 
@@ -32,17 +35,13 @@ class _PaymentBottomSheetState extends State<PaymentBottomSheet> {
       padding: EdgeInsets.only(
         left: 20,
         right: 20,
-        bottom: MediaQuery.of(context).padding.bottom +
-            bottomInset +
-            20,
+        bottom: MediaQuery.of(context).padding.bottom + bottomInset + 20,
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
           DropdownMenu<int>(
             controller: sendingCardsController,
-            enableFilter: false,
             width: MediaQuery.of(context).size.width - 20 * 2,
             leadingIcon: const Icon(Icons.credit_card),
             label: const Text('Sending Card'),
@@ -57,7 +56,6 @@ class _PaymentBottomSheetState extends State<PaymentBottomSheet> {
           const SizedBox(height: 20),
           DropdownMenu<int>(
             controller: receivingCardsController,
-            enableFilter: false,
             leadingIcon: const Icon(Icons.credit_card),
             label: const Text('Receiving Card'),
             width: MediaQuery.of(context).size.width - 20 * 2,

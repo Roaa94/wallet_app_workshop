@@ -7,19 +7,18 @@ environment:
   sdk: '>=3.1.0 <4.0.0'
 
 dependencies:
+  cupertino_icons: ^1.0.2
   flutter:
     sdk: flutter
-  cupertino_icons: ^1.0.2
-  widgetbook: ^3.2.0
   font_awesome_flutter: ^10.5.0
+  widgetbook: ^3.2.0
 
 dev_dependencies:
+  flutter_launcher_icons: ^0.13.1
+  flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
-
-  flutter_lints: ^2.0.0
   very_good_analysis: ^5.0.0+1
-  flutter_launcher_icons: ^0.13.1
 
 flutter:
   uses-material-design: true

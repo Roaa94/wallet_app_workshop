@@ -5,9 +5,9 @@ import 'package:wallet_app_workshop/core/widgets/dashed_border_container.dart';
 
 class Wallet extends StatelessWidget {
   const Wallet({
-    super.key,
     required this.width,
     required this.height,
+    super.key,
     this.onAddPressed,
     this.strapRotation = 0,
     this.bodyRotation = 0,

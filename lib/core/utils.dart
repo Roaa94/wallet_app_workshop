@@ -8,10 +8,11 @@ Offset getThrowOffsetFromDragLocation(Offset drag, double min) {
 }
 
 /// To achieve infinite lists, we build each child widget of the list on demand
-/// and provide it with the index of the child that we want to see instead of the actual list index
+/// and provide it with the index of the child that we want to see instead of
+/// the actual list index
 /// For the case of the stack of cards, we want to see the active card,
-/// and when that card is dismissed, the one before it is now the active card and
-/// should be built at the end of the list
+/// and when that card is dismissed, the one before it is now the active card
+/// and should be built at the end of the list
 ///
 /// We have several inputs to consider:
 /// - The `index` which is the original index of the list
@@ -22,8 +23,8 @@ Offset getThrowOffsetFromDragLocation(Offset drag, double min) {
 ///   and the first to be dismissed, hence it's at the end of the list
 ///
 /// This `activeIndex` value is incremented by 1 everytime a card is dismissed
-/// So to show the correct widget for every list item, we determine the distance between
-/// this item and the active item and use % to reset the index
+/// So to show the correct widget for every list item, we determine the distance
+/// between this item and the active item and use % to reset the index
 /// when it exceeds the length of the list
 /// Lastly, if `isReversed` is `true`,  we subtract this value from the
 /// last index (count - 1), to display the list in reverse
@@ -33,7 +34,7 @@ int getModIndexFromActiveIndex(
   int count, {
   bool isReversed = true,
 }) {
-  final modIndex = ((index - activeIndex) % count);
+  final modIndex = (index - activeIndex) % count;
   return isReversed ? count - 1 - modIndex : modIndex;
 }
 

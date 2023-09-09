@@ -6,8 +6,8 @@ const double creditCardAspectRatio = 1.56;
 
 class CreditCard extends StatelessWidget {
   const CreditCard({
-    super.key,
     required this.data,
+    super.key,
     this.width,
     this.isFront = false,
   }) : height = width != null ? width / creditCardAspectRatio : null;
@@ -67,7 +67,6 @@ class _CreditCardFront extends StatelessWidget {
             ),
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Expanded(
@@ -79,7 +78,7 @@ class _CreditCardFront extends StatelessWidget {
                       style: TextStyle(color: data.style.textColor),
                     ),
                     Text(
-                      '\$2,805.56',
+                      r'$2,805.56',
                       style: TextStyle(
                         color: data.style.textColor,
                         fontSize: 32,
@@ -106,7 +105,7 @@ class _CreditCardFront extends StatelessWidget {
                     style: TextStyle(color: data.style.textColor, fontSize: 16),
                   ),
                 ],
-              )
+              ),
             ],
           ),
         ],
