@@ -11,21 +11,21 @@ Introduction to simple implicit and explicit animations by adding simple animati
 
 🔗 [Preview the code of the animation](https://github.com/Roaa94/wallet_app_workshop/blob/main/lib/on-boarding/on_boarding_page.dart)
 
-<video width="50%" src="https://github.com/Roaa94/wallet_app_workshop/assets/50345358/67ddf8b7-2518-4533-a44a-4d3ac37cb7bd"></video>
+https://github.com/Roaa94/wallet_app_workshop/assets/50345358/67ddf8b7-2518-4533-a44a-4d3ac37cb7bd
 
 ### Chapter 2 - Stack of Dismissible Cards
 Utilizing user input to implement a stack of animated dismissible cards. Cards can be dragged by the user and can either animate back into place, or get thrown and fade away is a direction that depends on the location the user dragged them to. The cards are implemented such that they infinitely loop with the dismissed card returning to the back of the cards.
 
 🔗 [Preview the code of the animation](https://github.com/Roaa94/wallet_app_workshop/blob/main/lib/credit-cards/credit_cards_page.dart)
 
-<video width="50%" src="https://github.com/Roaa94/wallet_app_workshop/assets/50345358/3efad15e-5297-4ffe-90b3-6e3a7f7f9c06"></video>
+https://github.com/Roaa94/wallet_app_workshop/assets/50345358/3efad15e-5297-4ffe-90b3-6e3a7f7f9c06
 
 ### Chapter 3 - Cards Hero Animation & Custom Page Transitions
 Implementing custom page transitions and highly customized `Hero` animation.
 
 🔗 [Preview the code of the animation](https://github.com/Roaa94/wallet_app_workshop/blob/main/lib/credit-cards/credit_cards_page.dart)
 
-<video width="50%" src="https://github.com/Roaa94/wallet_app_workshop/assets/50345358/0d868308-8fd7-4adb-8cfe-dfc2c3bc4693"></video>
+https://github.com/Roaa94/wallet_app_workshop/assets/50345358/0d868308-8fd7-4adb-8cfe-dfc2c3bc4693
 
 
 ### Bonus - Slide to Pay Animation
@@ -33,5 +33,5 @@ Based on all the concepts covered before, this slide-tp-pay animation includes d
 
 🔗 [Preview the code of the animation](https://github.com/Roaa94/wallet_app_workshop/blob/main/lib/payment/payment_button.dart)
 
-<video width="50%" src="https://github.com/Roaa94/wallet_app_workshop/assets/50345358/376eddd2-9c25-407c-8ef7-348f3be38be8"></video>
+https://github.com/Roaa94/wallet_app_workshop/assets/50345358/376eddd2-9c25-407c-8ef7-348f3be38be8
 
