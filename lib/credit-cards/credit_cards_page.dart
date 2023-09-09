@@ -99,11 +99,11 @@ class _CreditCardsPageState extends State<CreditCardsPage> {
                             ..rotateX(flipAnimation.value),
                           alignment: Alignment.center,
                           child: Transform.flip(
-                            flipX: flipAnimation.value > 0,
+                            flipX: animation.value > 0.5,
                             child: CreditCard(
                               width: cardWidth,
                               data: cards[index],
-                              isFront: flipAnimation.value > 0.5,
+                              isFront: animation.value > 0.5,
                             ),
                           ),
                         );
