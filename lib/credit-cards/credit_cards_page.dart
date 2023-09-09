@@ -2,10 +2,12 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:wallet_app_workshop/core/data.dart';
+import 'package:wallet_app_workshop/core/utils.dart';
 import 'package:wallet_app_workshop/credit-cards/credit_card.dart';
 import 'package:wallet_app_workshop/credit-cards/credit_card_page.dart';
 
 const dragSnapDuration = Duration(milliseconds: 200);
+const pageTransitionDuration = Duration(milliseconds: 800);
 const dragThreshold = Offset(70, 70);
 const minCardScale = 0.6;
 const maxCardScale = 1.0;
@@ -43,21 +45,78 @@ class _CreditCardsPageState extends State<CreditCardsPage> {
           itemCount: cards.length,
           initialActiveCard: activeCard,
           onCardTap: (index) {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => CreditCardPage(initialIndex: index),
+            pushFadeInRoute(
+              context,
+              pageBuilder: (context, animation, __) => CreditCardPage(
+                initialIndex: index,
+                pageTransitionAnimation: animation,
               ),
-            );
+            ).then((value) {
+              if (value != null && value is int) {
+                setState(() {
+                  activeCard = value;
+                });
+              }
+            });
           },
           itemBuilder: (context, index) {
             return Align(
               widthFactor: cardHeight / cardWidth,
               heightFactor: cardWidth / cardHeight,
-              child: Transform.rotate(
-                angle: -pi / 2,
-                child: CreditCard(
-                  width: cardWidth,
-                  data: cards[index],
+              child: Hero(
+                tag: 'card_${cards[index].id}',
+                flightShuttleBuilder: (BuildContext context,
+                    Animation<double> animation, _, __, ___) {
+                  final rotationAnimation =
+                      Tween<double>(begin: -pi / 2, end: pi).animate(
+                    CurvedAnimation(
+                      parent: animation,
+                      curve: Curves.easeOut,
+                    ),
+                  );
+
+                  final flipAnimation =
+                      Tween<double>(begin: 0, end: pi).animate(
+                    CurvedAnimation(
+                      parent: animation,
+                      curve: const Interval(
+                        0.3,
+                        1.0,
+                        curve: Curves.easeOut,
+                      ),
+                    ),
+                  );
+
+                  return Material(
+                    color: Colors.transparent,
+                    child: AnimatedBuilder(
+                      animation: animation,
+                      builder: (context, child) {
+                        return Transform(
+                          transform: Matrix4.identity()
+                            ..setEntry(3, 2, 0.001)
+                            ..rotateZ(rotationAnimation.value)
+                            ..rotateX(flipAnimation.value),
+                          alignment: Alignment.center,
+                          child: Transform.flip(
+                            flipX: flipAnimation.value > 0,
+                            child: CreditCard(
+                              width: cardWidth,
+                              data: cards[index],
+                              isFront: flipAnimation.value > 0.5,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                },
+                child: Transform.rotate(
+                  angle: -pi / 2,
+                  child: CreditCard(
+                    width: cardWidth,
+                    data: cards[index],
+                  ),
                 ),
               ),
             );
@@ -89,33 +148,83 @@ class CreditCardsStack extends StatefulWidget {
 class _CreditCardsStackState extends State<CreditCardsStack>
     with SingleTickerProviderStateMixin {
   late final AnimationController animationController;
+  late final Animation<double> curvedAnimation;
+  late final Animation<Offset> throwAnimation;
+  late final Tween<Offset> throwAnimationTween;
+  late int activeIndex;
+  Offset dragOffset = Offset.zero;
+  Duration dragDuration = Duration.zero;
 
   double get scaleDifference =>
       (maxCardScale - minCardScale) / (widget.itemCount - 1);
 
   Future<void> _handleDismiss() async {
-    //...
+    throwAnimationTween.end = getThrowOffsetFromDragLocation(
+      dragOffset,
+      minThrowDistance,
+    );
+    await animationController.forward();
+    setState(() {
+      activeIndex++;
+    });
+    animationController.reset();
   }
 
   void _onPanStart(DragStartDetails details) {
-    _handleDismiss();
+    if (dragDuration > Duration.zero) {
+      dragDuration = Duration.zero;
+    }
   }
 
   void _onPanUpdate(DragUpdateDetails details) {
-    //...
+    setState(() {
+      dragOffset += details.delta;
+    });
   }
 
   void _onPanEnd(DragEndDetails details) {
-    //...
+    if (dragOffset.dx.abs() > dragThreshold.dx ||
+        dragOffset.dy.abs() > dragThreshold.dy) {
+      _handleDismiss().then((value) {
+        setState(() {
+          dragOffset = Offset.zero;
+        });
+      });
+    } else {
+      dragDuration = dragSnapDuration;
+      setState(() {
+        dragOffset = Offset.zero;
+      });
+    }
   }
 
   @override
   void initState() {
     super.initState();
+    activeIndex = widget.initialActiveCard;
     animationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 200),
     );
+    curvedAnimation = CurvedAnimation(
+      parent: animationController,
+      curve: Curves.easeOut,
+    );
+    throwAnimationTween = Tween<Offset>(
+      begin: Offset.zero,
+      end: const Offset(minThrowDistance, minThrowDistance),
+    );
+    throwAnimation = throwAnimationTween.animate(curvedAnimation);
+  }
+
+  @override
+  void didUpdateWidget(covariant CreditCardsStack oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.initialActiveCard != oldWidget.initialActiveCard) {
+      setState(() {
+        activeIndex = widget.initialActiveCard;
+      });
+    }
   }
 
   @override
@@ -126,52 +235,120 @@ class _CreditCardsStackState extends State<CreditCardsStack>
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      clipBehavior: Clip.none,
-      children: List.generate(
-        widget.itemCount,
-        (index) {
-          Widget child = widget.itemBuilder(context, index);
+    return AnimatedBuilder(
+      animation: animationController,
+      builder: (context, child) {
+        return Stack(
+          clipBehavior: Clip.none,
+          children: List.generate(
+            widget.itemCount + 1,
+            (stackIndexWithPlaceholder) {
+              final index = stackIndexWithPlaceholder - 1;
+              final modIndex = getModIndexFromActiveIndex(
+                index,
+                activeIndex,
+                widget.itemCount,
+              );
 
-          // Build the last, draggable card
-          if (index == widget.itemCount - 1) {
-            return Positioned(
-              left: 0,
-              bottom: 0,
-              child: GestureDetector(
-                onPanStart: _onPanStart,
-                onPanUpdate: _onPanUpdate,
-                onPanEnd: _onPanEnd,
-                onTap: () => widget.onCardTap?.call(index),
-                behavior: HitTestBehavior.opaque,
-                child: child,
-              ),
-            );
-          }
+              Widget child = widget.itemBuilder(context, modIndex);
 
-          // Build the cards in between (remaining cards)
-          /// To gradually scale down widgets, limited by min and max scales
-          final scaleByIndex = minCardScale +
-              ((maxCardScale - minCardScale) / (widget.itemCount - 1)) * index;
+              if (stackIndexWithPlaceholder == 0) {
+                return Positioned(
+                  top: 0,
+                  left: 0,
+                  child: Transform.scale(
+                    scale: minCardScale,
+                    alignment: Alignment.topCenter,
+                    child: HeroMode(
+                      enabled: false,
+                      child: child,
+                    ),
+                  ),
+                );
+              }
 
-          // Slide cards up gradually
-          final bottomOffsetByIndex =
-              -cardsOffset * (widget.itemCount - 1 - index);
+              // Build the last, draggable card
+              if (index == widget.itemCount - 1) {
+                return AnimatedPositioned(
+                  duration: dragDuration,
+                  left: dragOffset.dx,
+                  bottom: -dragOffset.dy,
+                  child: Transform.translate(
+                    offset: throwAnimation.value,
+                    child: GestureDetector(
+                      onPanStart: _onPanStart,
+                      onPanUpdate: _onPanUpdate,
+                      onPanEnd: _onPanEnd,
+                      onTap: dragOffset == Offset.zero
+                          ? () => widget.onCardTap?.call(modIndex)
+                          : null,
+                      behavior: HitTestBehavior.opaque,
+                      child: Opacity(
+                        opacity: 1 - curvedAnimation.value,
+                        child: child,
+                      ),
+                    ),
+                  ),
+                );
+              }
 
-          return Positioned(
-            left: 0,
-            bottom: 0,
-            child: Transform.translate(
-              offset: Offset(0, bottomOffsetByIndex),
-              child: Transform.scale(
-                scale: scaleByIndex,
-                alignment: Alignment.topCenter,
-                child: child,
-              ),
-            ),
-          );
-        },
-      ),
+              // Build the cards in between (remaining cards)
+              /// To gradually scale down widgets, limited by min and max scales
+              final scaleByIndex = minCardScale +
+                  ((maxCardScale - minCardScale) / (widget.itemCount - 1)) *
+                      index;
+
+              // Slide cards up gradually
+              final bottomOffsetByIndex =
+                  -cardsOffset * (widget.itemCount - 1 - index);
+
+              return Positioned(
+                left: 0,
+                bottom: 0,
+                child: Transform.translate(
+                  offset: Offset(
+                    0,
+                    bottomOffsetByIndex + cardsOffset * curvedAnimation.value,
+                  ),
+                  child: Transform.scale(
+                    scale:
+                        scaleByIndex + scaleDifference * curvedAnimation.value,
+                    alignment: Alignment.topCenter,
+                    child: child,
+                  ),
+                ),
+              );
+            },
+          ),
+        );
+      },
     );
   }
+}
+
+Future<dynamic> pushFadeInRoute(
+  BuildContext context, {
+  required RoutePageBuilder pageBuilder,
+}) {
+  return Navigator.of(context).push(
+    PageRouteBuilder(
+      pageBuilder: pageBuilder,
+      transitionDuration: pageTransitionDuration,
+      reverseTransitionDuration: pageTransitionDuration,
+      transitionsBuilder: (
+        BuildContext context,
+        Animation<double> animation,
+        _,
+        Widget child,
+      ) {
+        return FadeTransition(
+          opacity: CurvedAnimation(
+            parent: animation,
+            curve: Curves.easeOut,
+          ),
+          child: child,
+        );
+      },
+    ),
+  );
 }
