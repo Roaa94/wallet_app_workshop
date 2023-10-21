@@ -6,7 +6,7 @@ import 'package:wallet_app_workshop/core/styles.dart';
 import 'package:wallet_app_workshop/core/widgets/wallet.dart';
 import 'package:wallet_app_workshop/home_page.dart';
 
-class OnBoardingPage extends StatefulWidget {
+final class OnBoardingPage extends StatefulWidget {
   const OnBoardingPage({super.key});
 
   @override

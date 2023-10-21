@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-class DashedBorderContainer extends StatelessWidget {
+final class DashedBorderContainer extends StatelessWidget {
   const DashedBorderContainer({
     super.key,
     this.width,
@@ -41,7 +41,7 @@ class DashedBorderContainer extends StatelessWidget {
   }
 }
 
-class DashedBorderPainter extends CustomPainter {
+final class DashedBorderPainter extends CustomPainter {
   DashedBorderPainter({
     this.dash = 5.0,
     this.gap = 3.0,

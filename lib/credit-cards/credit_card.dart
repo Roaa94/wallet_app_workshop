@@ -4,7 +4,7 @@ import 'package:wallet_app_workshop/core/styles.dart';
 
 const double creditCardAspectRatio = 1.56;
 
-class CreditCard extends StatelessWidget {
+final class CreditCard extends StatelessWidget {
   const CreditCard({
     required this.data,
     super.key,
@@ -44,7 +44,7 @@ class CreditCard extends StatelessWidget {
   }
 }
 
-class _CreditCardFront extends StatelessWidget {
+final class _CreditCardFront extends StatelessWidget {
   const _CreditCardFront(this.data);
 
   final CreditCardData data;
@@ -114,7 +114,7 @@ class _CreditCardFront extends StatelessWidget {
   }
 }
 
-class _CreditCardBack extends StatelessWidget {
+final class _CreditCardBack extends StatelessWidget {
   const _CreditCardBack(this.data);
 
   final CreditCardData data;

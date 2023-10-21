@@ -5,7 +5,7 @@ import 'package:wallet_app_workshop/core/styles.dart';
 import 'package:wallet_app_workshop/credit-cards/credit_card.dart';
 import 'package:wallet_app_workshop/on-boarding/on_boarding_page.dart';
 
-class CreditCardPage extends StatefulWidget {
+final class CreditCardPage extends StatefulWidget {
   const CreditCardPage({
     required this.initialIndex,
     required this.pageTransitionAnimation,
@@ -182,7 +182,7 @@ class _CreditCardPageState extends State<CreditCardPage> {
   }
 }
 
-class _Button extends StatelessWidget {
+final class _Button extends StatelessWidget {
   const _Button({
     required this.label,
     required this.icon,
