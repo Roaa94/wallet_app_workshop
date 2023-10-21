@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wallet_app_workshop/core/data.dart';
 import 'package:wallet_app_workshop/payment/payment_button.dart';
 
-class PaymentBottomSheet extends StatefulWidget {
+final class PaymentBottomSheet extends StatefulWidget {
   const PaymentBottomSheet({super.key});
 
   @override

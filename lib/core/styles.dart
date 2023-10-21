@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-class AppColors {
+@immutable
+final class AppColors {
   static const Color primary = Color(0xff1A77FF);
   static const Color secondary = Color(0xffFFBB05);
   static const Color accent = Color(0xffF5C3D2);
@@ -13,7 +14,7 @@ class AppColors {
   static const Color white = Color(0xffF2F2F2);
 }
 
-class AppBorderRadius {
+final class AppBorderRadius {
   static const double sm = 5;
   static const double md = 10;
   static const double lg = 15;
@@ -21,7 +22,7 @@ class AppBorderRadius {
   static const double xxl = 25;
 }
 
-class AppThemes {
+final class AppThemes {
   static ThemeData getTheme({bool isDark = true}) {
     return ThemeData(
       fontFamily: 'Raleway',
@@ -69,7 +70,7 @@ class AppThemes {
         ),
         menuStyle: MenuStyle(
           backgroundColor:
-          const MaterialStatePropertyAll<Color>(AppColors.black),
+              const MaterialStatePropertyAll<Color>(AppColors.black),
           elevation: const MaterialStatePropertyAll<double>(0),
           shape: MaterialStatePropertyAll<OutlinedBorder>(
             RoundedRectangleBorder(

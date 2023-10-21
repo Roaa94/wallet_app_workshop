@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:wallet_app_workshop/core/constants.dart';
 import 'package:wallet_app_workshop/core/data.dart';
+import 'package:wallet_app_workshop/core/extensions/string_extensions.dart';
 import 'package:wallet_app_workshop/core/styles.dart';
 import 'package:wallet_app_workshop/core/widgets/wallet.dart';
 import 'package:wallet_app_workshop/credit-cards/credit_cards_page.dart';
 import 'package:wallet_app_workshop/payment/payment_bottom_sheet.dart';
 
-class HomePage extends StatefulWidget {
+final class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
@@ -61,12 +62,12 @@ class _HomePageState extends State<HomePage> {
             destinations: <Widget>[
               NavigationDestination(
                 selectedIcon: Image.asset(
-                  'assets/icons/cards-active.png',
+                  'cards-active'.toIcon,
                   width: 35,
                   height: 35,
                 ),
                 icon: Image.asset(
-                  'assets/icons/cards.png',
+                  'cards'.toIcon,
                   width: 35,
                   height: 35,
                 ),
@@ -103,12 +104,12 @@ class _HomePageState extends State<HomePage> {
               ),
               NavigationDestination(
                 selectedIcon: Image.asset(
-                  'assets/icons/notifications-active.png',
+                  'notifications-active'.toIcon,
                   width: 30,
                   height: 30,
                 ),
                 icon: Image.asset(
-                  'assets/icons/notifications.png',
+                  'notifications'.toIcon,
                   width: 30,
                   height: 30,
                 ),
@@ -123,7 +124,7 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-class _NotificationsPage extends StatelessWidget {
+final class _NotificationsPage extends StatelessWidget {
   const _NotificationsPage();
 
   @override
@@ -134,7 +135,7 @@ class _NotificationsPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Center(
-            child: Image.asset('assets/images/empty.png'),
+            child: Image.asset('empty'.toPng),
           ),
           const SizedBox(height: 20),
           const Center(

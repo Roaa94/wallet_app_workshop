@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:wallet_app_workshop/core/init/initialization.dart';
 import 'package:wallet_app_workshop/core/styles.dart';
 import 'package:wallet_app_workshop/on-boarding/on_boarding_page.dart';
 
-void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
+Future<void> main() async {
+  await AppInitialization.initialization();
   runApp(const WalletApp());
 }
 
-class WalletApp extends StatelessWidget {
+final class WalletApp extends StatelessWidget {
   const WalletApp({super.key});
 
   @override

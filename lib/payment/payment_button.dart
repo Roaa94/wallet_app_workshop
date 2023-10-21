@@ -1,12 +1,13 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:wallet_app_workshop/core/extensions/string_extensions.dart';
 import 'package:wallet_app_workshop/core/styles.dart';
 
 const dragSnapDuration = Duration(milliseconds: 300);
 const draggableMinWidth = 60.0;
 
-class PaymentButton extends StatefulWidget {
+final class PaymentButton extends StatefulWidget {
   const PaymentButton({
     super.key,
     this.enabled = false,
@@ -198,7 +199,7 @@ class _PaymentButtonState extends State<PaymentButton>
       width: 60,
       child: Center(
         child: Image.asset(
-          'assets/icons/dollar.png',
+          'dollar'.toIcon,
           width: 30,
         ),
       ),

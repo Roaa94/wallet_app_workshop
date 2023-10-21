@@ -3,7 +3,7 @@ import 'package:wallet_app_workshop/core/constants.dart';
 import 'package:wallet_app_workshop/core/styles.dart';
 import 'package:wallet_app_workshop/core/widgets/dashed_border_container.dart';
 
-class Wallet extends StatelessWidget {
+final class Wallet extends StatelessWidget {
   const Wallet({
     required this.width,
     required this.height,
@@ -48,7 +48,7 @@ class Wallet extends StatelessWidget {
   }
 }
 
-class _WalletStrapSide extends StatelessWidget {
+final class _WalletStrapSide extends StatelessWidget {
   const _WalletStrapSide();
 
   @override
@@ -88,7 +88,7 @@ class _WalletStrapSide extends StatelessWidget {
   }
 }
 
-class WalletSide extends StatelessWidget {
+final class WalletSide extends StatelessWidget {
   const WalletSide({super.key});
 
   @override

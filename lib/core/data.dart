@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wallet_app_workshop/core/styles.dart';
 
-class CreditCardData {
+final class CreditCardData {
   const CreditCardData({
     required this.id,
     required this.name,

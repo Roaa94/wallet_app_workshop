@@ -14,7 +14,7 @@ const maxCardScale = 1.0;
 const cardsOffset = 12.0;
 const minThrowDistance = 300.0;
 
-class CreditCardsPage extends StatefulWidget {
+final class CreditCardsPage extends StatefulWidget {
   const CreditCardsPage({
     super.key,
     this.onCardPagePush,
@@ -132,7 +132,7 @@ class _CreditCardsPageState extends State<CreditCardsPage> {
   }
 }
 
-class CreditCardsStack extends StatefulWidget {
+final class CreditCardsStack extends StatefulWidget {
   const CreditCardsStack({
     required this.itemCount,
     required this.itemBuilder,
@@ -150,7 +150,7 @@ class CreditCardsStack extends StatefulWidget {
   State<CreditCardsStack> createState() => _CreditCardsStackState();
 }
 
-class _CreditCardsStackState extends State<CreditCardsStack>
+final class _CreditCardsStackState extends State<CreditCardsStack>
     with SingleTickerProviderStateMixin {
   late final AnimationController animationController;
   late final Animation<double> curvedAnimation;
